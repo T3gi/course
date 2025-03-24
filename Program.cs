@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Phoenix.Data;
+using Phoenix.Models;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<PhoenixContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("PhoenixContext") ?? throw new InvalidOperationException("Connection string 'PhoenixContext' not found.")));
@@ -9,6 +10,13 @@ builder.Services.AddDbContext<PhoenixContext>(options =>
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    SeedData.Initialize(services);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

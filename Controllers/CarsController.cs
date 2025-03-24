@@ -20,9 +20,34 @@ namespace Phoenix.Controllers
         }
 
         // GET: Cars
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string carMark, string searchString)
         {
-            return View(await _context.Car.ToListAsync());
+            if (_context.Car == null)
+            {
+                return Problem("Entity set 'CarContext.Car' is null.");
+            }
+
+            IQueryable<string> markQuery = from c in _context.Car orderby c.Mark select c.Mark;
+
+            var cars = from c in _context.Car select c;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                cars = cars.Where(c => c.Name!.ToUpper().Contains(searchString.ToUpper()));
+            }
+
+            if (!String.IsNullOrEmpty(carMark))
+            {
+                cars = cars.Where(x => x.Mark == carMark);
+            }
+
+            var carMarkVM = new CarMarkViewModel
+            {
+                Marks = new SelectList(await markQuery.Distinct().ToListAsync()),
+                Cars = await cars.ToListAsync()
+            };
+
+            return View(carMarkVM);
         }
 
         // GET: Cars/Details/5

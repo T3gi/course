@@ -10,7 +10,13 @@ builder.Services.AddDbContext<PhoenixUserContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("PhoenixUserContextConnection") ?? throw new InvalidOperationException("Connection string 'PhoenixUserContext' not found.")));
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<PhoenixUserContext>();
+
+builder.Services.ConfigureApplicationCookie(opts =>
+{
+    opts.AccessDeniedPath = "/Home/";
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

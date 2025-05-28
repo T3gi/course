@@ -12,8 +12,8 @@ using Phoenix.Areas.Identity.Data;
 namespace Phoenix.Migrations
 {
     [DbContext(typeof(PhoenixContext))]
-    [Migration("20250324110914_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250527083852_Brand-TechSpecs")]
+    partial class BrandTechSpecs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,9 @@ namespace Phoenix.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Brand")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Mark")
                         .HasColumnType("nvarchar(max)");
 
@@ -40,10 +43,13 @@ namespace Phoenix.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("TechSpecs")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

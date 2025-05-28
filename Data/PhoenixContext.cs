@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Phoenix.Models;
 
-namespace Phoenix.Data
+namespace Phoenix.Areas.Identity.Data
 {
     public class PhoenixContext : DbContext
     {

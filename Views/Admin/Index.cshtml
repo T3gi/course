@@ -18,6 +18,8 @@
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
+            <th>Users</th>
+            <th>Update</th>
             <th></th>
         </tr>
     </thead>
@@ -31,6 +33,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
+                <td i-role="@item.Id"></td>
                 <td><a class="btn btn-sm btn-primary" asp-action="Update" asp-route-id="@item.Id">Update</a></td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

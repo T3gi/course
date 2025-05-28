@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Phoenix.Areas.Identity.Data;
 
-namespace Phoenix.Data;
+namespace Phoenix.Areas.Identity.Data;
 
 public class PhoenixUserContext : IdentityDbContext<IdentityUser>
 {

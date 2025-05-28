@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Phoenix.Data;
+using Phoenix.Areas.Identity.Data;
 using Phoenix.Models;
-using Microsoft.AspNetCore.Identity;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<PhoenixContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("PhoenixContext") ?? throw new InvalidOperationException("Connection string 'PhoenixContext' not found.")));
@@ -15,11 +17,17 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 builder.Services.ConfigureApplicationCookie(opts =>
 {
-    opts.AccessDeniedPath = "/Home/";
+    opts.AccessDeniedPath = "/Home";
 });
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Dealer", policy =>
+          policy.RequireRole(["Admin", "Ford"]));
+});
 
 var app = builder.Build();
 

@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Phoenix.Data;
+using Phoenix.Areas.Identity.Data;
 using Phoenix.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Phoenix.Controllers
 {
@@ -69,6 +70,7 @@ namespace Phoenix.Controllers
         }
 
         // GET: Cars/Create
+        [Authorize(Policy = "Dealer")]
         public IActionResult Create()
         {
             return View();
@@ -79,9 +81,9 @@ namespace Phoenix.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,ReleaseDate,Mark,Price")] Car car)
+        public async Task<IActionResult> Create([Bind("Id,Name,ReleaseDate,Brand,Mark,TechSpecs,Price")] Car car)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && User.IsInRole(car.Brand))
             {
                 _context.Add(car);
                 await _context.SaveChangesAsync();
@@ -91,6 +93,7 @@ namespace Phoenix.Controllers
         }
 
         // GET: Cars/Edit/5
+        [Authorize(Policy = "Dealer")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -99,7 +102,7 @@ namespace Phoenix.Controllers
             }
 
             var car = await _context.Car.FindAsync(id);
-            if (car == null)
+            if (car == null || !User.IsInRole(car.Brand))
             {
                 return NotFound();
             }
@@ -111,7 +114,7 @@ namespace Phoenix.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ReleaseDate,Mark,Price")] Car car)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ReleaseDate,Brand,Mark,TechSpecs,Price")] Car car)
         {
             if (id != car.Id)
             {
@@ -142,6 +145,7 @@ namespace Phoenix.Controllers
         }
 
         // GET: Cars/Delete/5
+        [Authorize(Policy = "Dealer")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -151,7 +155,7 @@ namespace Phoenix.Controllers
 
             var car = await _context.Car
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (car == null)
+            if (car == null || !User.IsInRole(car.Brand))
             {
                 return NotFound();
             }

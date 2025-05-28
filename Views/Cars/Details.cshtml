@@ -22,11 +22,23 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ReleaseDate)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Brand)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Brand)
+        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Mark)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Mark)
+        </dd>
+        <dt class="col-sm-2">
+           Tech Specs
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TechSpecs)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Price)
@@ -37,6 +49,10 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    @if (User.IsInRole("Admin"))
+    {
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
+    <text>|</text>
+    }
     <a asp-action="Index">Back to List</a>
 </div>

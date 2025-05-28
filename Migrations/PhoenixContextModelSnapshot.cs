@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Phoenix.Data;
+using Phoenix.Areas.Identity.Data;
 
 #nullable disable
 
@@ -30,6 +30,9 @@ namespace Phoenix.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Brand")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Mark")
                         .HasColumnType("nvarchar(max)");
 
@@ -41,6 +44,9 @@ namespace Phoenix.Migrations
 
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("TechSpecs")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

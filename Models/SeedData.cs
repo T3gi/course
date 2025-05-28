@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Phoenix.Data;
+using Phoenix.Areas.Identity.Data;
 using System;
 using System.Linq;
 
@@ -23,21 +23,27 @@ namespace Phoenix.Models
                     {
                         Name = "Ford Mustang 1975",
                         ReleaseDate = DateTime.Parse("1975-5-15"),
+                        Brand = "Ford",
                         Mark = "Mustang",
+                        TechSpecs = "Diesel engine",
                         Price = 9999
                     },
                     new Car
                     {
                         Name = "Chevrolet Camaro 2024",
                         ReleaseDate = DateTime.Parse("2024-12-8"),
+                        Brand = "Chevrolet",
                         Mark = "Camaro",
+                        TechSpecs = "Gasoline engine",
                         Price = 99999
                     },
                     new Car
                     {
                         Name = "Porsche Cayenne 2023",
                         ReleaseDate = DateTime.Parse("2023-5-11"),
+                        Brand = "Porsche",
                         Mark = "Cayenne",
+                        TechSpecs = "Gasoline engine",
                         Price = 999999
                     }
                 );

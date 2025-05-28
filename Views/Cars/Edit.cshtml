@@ -24,9 +24,19 @@
                 <span asp-validation-for="ReleaseDate" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Brand" class="control-label"></label>
+                <input asp-for="Brand" class="form-control" />
+                <span asp-validation-for="Brand" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Mark" class="control-label"></label>
                 <input asp-for="Mark" class="form-control" />
                 <span asp-validation-for="Mark" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Tech Specs</label>
+                <input asp-for="TechSpecs" class="form-control" />
+                <span asp-validation-for="TechSpecs" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>

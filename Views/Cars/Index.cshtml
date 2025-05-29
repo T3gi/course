@@ -1,4 +1,4 @@
-﻿@model Phoenix.Models.CarMarkViewModel
+﻿@model Phoenix.Models.CarViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -15,6 +15,9 @@
 
 <form asp-controller="Cars" asp-action="Index" method="get">
     <p>
+        <select asp-for="CarBrand" asp-items="Model.Brands">
+            <option value="">All</option>
+        </select>
         <select asp-for="CarMark" asp-items="Model.Marks">
             <option value="">All</option>
         </select>

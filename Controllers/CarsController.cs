@@ -21,7 +21,7 @@ namespace Phoenix.Controllers
         }
 
         // GET: Cars
-        public async Task<IActionResult> Index(string carMark, string searchString)
+        public async Task<IActionResult> Index(string carMark, string carBrand, string searchString)
         {
             if (_context.Car == null)
             {
@@ -29,6 +29,7 @@ namespace Phoenix.Controllers
             }
 
             IQueryable<string> markQuery = from c in _context.Car orderby c.Mark select c.Mark;
+            IQueryable<string> brandQuery = from c in _context.Car orderby c.Brand select c.Brand;
 
             var cars = from c in _context.Car select c;
 
@@ -37,13 +38,29 @@ namespace Phoenix.Controllers
                 cars = cars.Where(c => c.Name!.ToUpper().Contains(searchString.ToUpper()));
             }
 
-            if (!String.IsNullOrEmpty(carMark))
+            if (!String.IsNullOrEmpty(carBrand))
             {
-                cars = cars.Where(x => x.Mark == carMark);
+                if (!String.IsNullOrEmpty(carMark))
+                {
+                    cars = cars.Where(x => x.Mark == carMark && x.Brand == carBrand);
+                }
+                else
+                {
+                    cars = cars.Where(x => x.Brand == carBrand);
+                }
+            } else
+            {
+                if (!String.IsNullOrEmpty(carMark))
+                {
+                    cars = cars.Where(x => x.Mark == carMark);
+                }
             }
 
-            var carMarkVM = new CarMarkViewModel
+            
+
+            var carMarkVM = new CarViewModel
             {
+                Brands = new SelectList(await brandQuery.Distinct().ToListAsync()),
                 Marks = new SelectList(await markQuery.Distinct().ToListAsync()),
                 Cars = await cars.ToListAsync()
             };

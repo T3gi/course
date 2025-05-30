@@ -100,11 +100,14 @@ namespace Phoenix.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,ReleaseDate,Brand,Mark,TechSpecs,Price")] Car car)
         {
-            if (ModelState.IsValid && User.IsInRole(car.Brand))
+            if (ModelState.IsValid)
             {
-                _context.Add(car);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (car.Brand != null && (User.IsInRole(car.Brand) || User.IsInRole("Admin")))
+                {
+                    _context.Add(car);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View(car);
         }
@@ -119,7 +122,7 @@ namespace Phoenix.Controllers
             }
 
             var car = await _context.Car.FindAsync(id);
-            if (car == null || !User.IsInRole(car.Brand))
+            if (car == null || (!User.IsInRole(car.Brand) || !User.IsInRole("Admin")))
             {
                 return NotFound();
             }
@@ -172,7 +175,7 @@ namespace Phoenix.Controllers
 
             var car = await _context.Car
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (car == null || !User.IsInRole(car.Brand))
+            if (car == null || (!User.IsInRole(car.Brand) || !User.IsInRole("Admin")))
             {
                 return NotFound();
             }

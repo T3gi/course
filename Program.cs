@@ -26,7 +26,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Dealer", policy =>
-          policy.RequireRole(["Admin", "Ford"]));
+          policy.RequireRole(["Admin", "Ford", "Chevrolet"]));
 });
 
 var app = builder.Build();
